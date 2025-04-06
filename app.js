@@ -15,21 +15,25 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use((req, res, next) => {
-    req.on('data', (chunk) => {
-        console.log(`Received chunk: ${chunk}`);
-    });
-    req.on('end', () => {
-        next();
-    });
-});
+app.use(express.json());
+
+// app.use((req, res, next) => {
+//     req.on('data', (chunk) => {
+//         console.log(`Received chunk: ${chunk}`);
+//     });
+//     req.on('end', () => {
+//         next();
+//     });
+// });
+
+
 
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello World' });
 });
 
 app.post('/articles', (req, res) => {
-    res.status(200).json({ message: 'Hello World POST' });
+    res.status(200).json({ message: req.body.message });
 });
 
 app.use((req, res, next) => {
