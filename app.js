@@ -4,6 +4,9 @@ const morgan = require('morgan');
 
 app.use(morgan('dev'));
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -15,25 +18,12 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(express.json());
-
-// app.use((req, res, next) => {
-//     req.on('data', (chunk) => {
-//         console.log(`Received chunk: ${chunk}`);
-//     });
-//     req.on('end', () => {
-//         next();
-//     });
-// });
-
-
-
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Hello World' });
 });
 
 app.post('/articles', (req, res) => {
-    res.status(200).json({ message: req.body.message });
+    res.status(200).json({ message: req.body });
 });
 
 app.use((req, res, next) => {
