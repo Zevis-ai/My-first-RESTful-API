@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
+const articlesRoutes = require('./api/routes/articles');
+
 app.use(morgan('dev'));
 
 app.use(express.json());
@@ -18,13 +20,8 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Hello World' });
-});
-
-app.post('/articles', (req, res) => {
-    res.status(200).json({ message: req.body });
-});
+// Routes
+app.use('/articles', articlesRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');
