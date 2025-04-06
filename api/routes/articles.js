@@ -8,12 +8,10 @@ const {
     deleteArticle
 } = require("../controllers/articles")
 
+
 router.get('/', getAllArticles)
-
 router.post('/', createArticle)
-
 router.patch('/:articleId', updateArticle)
-
 router.delete('/:articleId', deleteArticle)
 
 module.exports = router
