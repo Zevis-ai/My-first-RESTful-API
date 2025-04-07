@@ -55,8 +55,15 @@ module.exports = {
 
     updateArticle: (req, res) => {
         const articleId = req.params.articleId;
-        res.status(200).json({
-            message: `updated article - ${articleId}`
+
+        Article.updateOne({_id: articleId},req.body).then( ()=> {
+            res.status(200).json({
+                message: `article updated`,
+            });
+        }).catch(err => {
+            res.status(500).json({
+                err
+            });
         });
     },
 
