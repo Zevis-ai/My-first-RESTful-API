@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 
-const articlesRoutes = require('./api/routes/articles');
+const articlesRoutes = require('./api/routes/articles')
+const categoriesRoutes = require('./api/routes/categories')
+const usersRoutes = require('./api/routes/users')
 
 app.use(morgan('dev'));
 
@@ -22,6 +24,8 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/articles', articlesRoutes);
+app.use('/categories', categoriesRoutes)
+app.use('/users', usersRoutes)
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');
