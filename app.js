@@ -1,6 +1,14 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+mongoose.connect(process.env.MONGO_URI)
+
+mongoose.connection.on('connected', () => {
+    console.log('Connected to MongoDB Atlas')
+})
 
 const articlesRoutes = require('./api/routes/articles')
 const categoriesRoutes = require('./api/routes/categories')
