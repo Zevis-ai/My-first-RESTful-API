@@ -3,8 +3,14 @@ const mongoose = require('mongoose');
 
 module.exports = {
     getAllArticles: (req, res) => {
-        res.status(200).json({
-            message: 'GET all articles'
+        Article.find().then((articles)=>{
+            res.status(200).json({
+                articles
+            });
+        }).catch(err => {
+            res.status(500).json({
+                err
+            });
         });
     },
 
