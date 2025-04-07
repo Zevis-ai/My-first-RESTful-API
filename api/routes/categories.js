@@ -1,5 +1,5 @@
-const exports = require('express')
-const router = exports.Router()
+const express = require('express')
+const router = express.Router()
 
 const {
     getAllCategories,
