@@ -35,6 +35,24 @@ module.exports = {
         });
     },
 
+    getArticle: (req, res) => {
+        const articleId = req.params.articleId;
+        Article.findById(articleId).then((article) => {
+            if (!article) {
+                return res.status(404).json({
+                    message: 'Article not found'
+                });
+            }
+            res.status(200).json({
+                article
+            });
+        }).catch(err => {
+            res.status(500).json({
+                err
+            });
+        });
+    },
+
     updateArticle: (req, res) => {
         const articleId = req.params.articleId;
         res.status(200).json({
