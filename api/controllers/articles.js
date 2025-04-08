@@ -17,33 +17,36 @@ module.exports = {
     },
 
     createArticle: (req, res) => {
-        const {title, description, content, categoryId} = req.body
-
-        // Check if categoryId exists in the database
+        const { path: image } = req.file;
+        
+        const { title, description, content, categoryId } = req.body;
+    
         Category.findById(categoryId).then(category => {
             if (!category) {
-                return res.status(404).json({
-                    message: 'Category not found'
-                });
+                res.status(404).json({ message: 'Category not found' });
+                return null;
             }
+    
             const article = new Article({
                 _id: new mongoose.Types.ObjectId(),
                 title,
                 description,
                 content,
-                categoryId
+                categoryId,
+                image: image.replace(/\\/g, '/')
             });
-            return article.save();    
+    
+            return article.save();
         }).then(result => {
+            if (!result) return;
+    
             res.status(200).json({
                 message: 'created article'
             });
         }).catch(err => {
-            res.status(500).json({
-                err
-            });
+            res.status(500).json({ err });
         });
-    },
+    },    
 
     getArticle: (req, res) => {
         const articleId = req.params.articleId;
