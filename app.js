@@ -15,6 +15,7 @@ const categoriesRoutes = require('./api/routes/categories')
 const usersRoutes = require('./api/routes/users')
 
 app.use(morgan('dev'));
+app.use('/uploads', express.static('uploads'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
