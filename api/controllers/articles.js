@@ -1,9 +1,11 @@
 const Article = require('../models/article');
 const mongoose = require('mongoose');
+const Category = require('../models/category');
 
 module.exports = {
     getAllArticles: (req, res) => {
-        Article.find().then((articles)=>{
+
+        Article.find().populate('categoryId').then((articles)=>{
             res.status(200).json({
                 articles
             });
@@ -15,16 +17,24 @@ module.exports = {
     },
 
     createArticle: (req, res) => {
-        const {title, description, content} = req.body
+        const {title, description, content, categoryId} = req.body
 
-        const article = new Article({
-            _id: new mongoose.Types.ObjectId(),
-            title,
-            description,
-            content
-        });
-
-        article.save().then(result => {
+        // Check if categoryId exists in the database
+        Category.findById(categoryId).then(category => {
+            if (!category) {
+                return res.status(404).json({
+                    message: 'Category not found'
+                });
+            }
+            const article = new Article({
+                _id: new mongoose.Types.ObjectId(),
+                title,
+                description,
+                content,
+                categoryId
+            });
+            return article.save();    
+        }).then(result => {
             res.status(200).json({
                 message: 'created article'
             });
