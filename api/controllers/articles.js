@@ -5,7 +5,7 @@ const Category = require('../models/category');
 module.exports = {
     getAllArticles: (req, res) => {
 
-        Article.find().populate('categoryId').then((articles)=>{
+        Article.find().populate('categoryId' , 'title').then((articles)=>{
             res.status(200).json({
                 articles
             });
