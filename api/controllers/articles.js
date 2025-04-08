@@ -65,6 +65,27 @@ module.exports = {
 
     updateArticle: (req, res) => {
         const articleId = req.params.articleId;
+        const { categoryId } = req.body
+
+        if(categoryId){
+            return Category.findById(categoryId).then(category => {
+                if (!category) {
+                    return res.status(404).json({
+                        message: 'Category not found'
+                    });
+                }
+                
+                return Article.updateOne({_id: articleId}, req.body);
+            }).then(result => {
+                res.status(200).json({
+                    message: 'article updated'
+                });
+            }).catch(err => {
+                res.status(500).json({
+                    err
+                });
+            });
+        }
 
         Article.updateOne({_id: articleId},req.body).then( ()=> {
             res.status(200).json({
