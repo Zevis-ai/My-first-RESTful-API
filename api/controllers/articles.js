@@ -63,52 +63,52 @@ module.exports = {
         });
     },
 
-    updateArticle: (req, res) => {
-        const articleId = req.params.articleId;
-        const { categoryId } = req.body
-
-        if(categoryId){
-            return Category.findById(categoryId).then(category => {
+    updateArticle: async (req, res) => {
+        try {
+            const articleId = req.params.articleId;
+            const { categoryId } = req.body;
+    
+            const article = await Article.findById(articleId);
+            if (!article) {
+                return res.status(404).json({ message: 'Article not found' });
+            }
+    
+            if (categoryId) {
+                const category = await Category.findById(categoryId);
                 if (!category) {
-                    return res.status(404).json({
-                        message: 'Category not found'
-                    });
+                    return res.status(404).json({ message: 'Category not found' });
                 }
-                
-                return Article.updateOne({_id: articleId}, req.body);
-            }).then(result => {
-                res.status(200).json({
-                    message: 'article updated'
+            }
+    
+            await Article.updateOne({ _id: articleId }, req.body);
+            return res.status(200).json({ message: 'Article updated' });
+    
+        } catch (err) {
+            return res.status(500).json({ err });
+        }
+    },
+    
+
+    deleteArticle: async (req, res) => {
+        try {
+            const articleId = req.params.articleId;
+    
+            const article = await Article.findById(articleId);
+            if (!article) {
+                return res.status(404).json({
+                    message: 'Article not found'
                 });
-            }).catch(err => {
-                res.status(500).json({
-                    err
-                });
+            }
+    
+            await Article.deleteOne({ _id: articleId });
+            return res.status(200).json({
+                message: `Deleted article - ${articleId}`
+            });
+    
+        } catch (err) {
+            return res.status(500).json({
+                err
             });
         }
-
-        Article.updateOne({_id: articleId},req.body).then( ()=> {
-            res.status(200).json({
-                message: `article updated`,
-            });
-        }).catch(err => {
-            res.status(500).json({
-                err
-            });
-        });
-    },
-
-    deleteArticle: (req, res) => {
-        const articleId = req.params.articleId;
-
-        Article.deleteOne({_id: articleId}).then(() => {
-            res.status(200).json({
-                message: `deleted article - ${articleId}`
-            });
-        }).catch(err => {
-            res.status(500).json({
-                err
-            });
-        });
-    }
+    }    
 }
