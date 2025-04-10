@@ -12,7 +12,8 @@ mongoose.connection.on('connected', () => {
 
 const articlesRoutes = require('./api/routes/articles')
 const categoriesRoutes = require('./api/routes/categories')
-const usersRoutes = require('./api/routes/users')
+const usersRoutes = require('./api/routes/users');
+const checkAuth = require('./api/middlewares/checkAuth');
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
@@ -33,7 +34,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/articles', articlesRoutes);
-app.use('/categories', categoriesRoutes)
+app.use('/categories',checkAuth , categoriesRoutes)
 app.use('/users', usersRoutes)
 
 app.use((req, res, next) => {
