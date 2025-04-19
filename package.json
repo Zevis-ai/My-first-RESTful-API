@@ -1,7 +1,8 @@
 {
   "name": "my-first-restful-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon server.js"
   },

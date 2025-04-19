@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema({
         unique: true,
         match: /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     },
-    password: {type: String, required: true}
-})
+    password: { type: String, required: true }
+});
 
-module.exports = mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema);

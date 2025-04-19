@@ -1,22 +1,31 @@
-const express = require('express');
+import express from 'express';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import path from 'path';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+
+
+
+dotenv.config();
+
 const app = express();
-const morgan = require('morgan');
-const mongoose = require('mongoose');
-const path = require('path');
-require('dotenv').config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI);
 
 mongoose.connection.on('connected', () => {
-    console.log('Connected to MongoDB Atlas')
-})
+    console.log('Connected to MongoDB Atlas');
+});
 
-const articlesRoutes = require('./api/routes/articles')
-const categoriesRoutes = require('./api/routes/categories')
-const usersRoutes = require('./api/routes/users');
-const checkAuth = require('./api/middlewares/checkAuth');
+import articlesRoutes from './api/routes/articles.js';
+import categoriesRoutes from './api/routes/categories.js';
+import usersRoutes from './api/routes/users.js';
+import checkAuth from './api/middlewares/checkAuth.js';
 
 app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
@@ -31,14 +40,14 @@ app.use((req, res, next) => {
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
         return res.status(200).json({});
     }
-    
+
     next();
-})
+});
 
 // Routes
 app.use('/articles', articlesRoutes);
-app.use('/categories',checkAuth , categoriesRoutes)
-app.use('/users', usersRoutes)
+app.use('/categories', checkAuth, categoriesRoutes);
+app.use('/users', usersRoutes);
 
 app.use((req, res, next) => {
     const error = new Error('Not Found');
@@ -55,4 +64,4 @@ app.use((error, req, res, next) => {
     });
 });
 
-module.exports = app;
+export default app;

@@ -1,5 +1,13 @@
-const app = document.querySelector('#app')
+import { api } from './api.js'
+const appdiv = document.getElementById('app')
 
-app.innerHTML = `
+
+appdiv.innerHTML = `
   <h1>Hello </h1>
   `
+
+  const init = () => {
+    api()
+  }
+
+  init()
