@@ -5,11 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>restful api</title>
     <script type="module" defer src="js/main.js"></script>
+
+    <!-- bootstrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <!-- CDN FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
 </head>
 <body>
-    <header>
-        <h1>zevi</h1>
+    <header class="d-flex justify-content-between align-items-center px-4 py-2 position-relative bg-dark text-white">
+        
+        <div class="brand d-flex align-items-center">
+            <span class="fab fa-github goToGitHub fs-3 me-2"></span>
+            <h1 class="h4 m-0 logo">Zevi Friedman</h1>
+        </div>
+    
+        
+        <div class="position-absolute start-50 translate-middle-x d-none d-lg-flex ">
+            <button id="home" class="btn custom-btn px-4 text-light hover-text-dark">Home</button>
+            <button class="btn custom-btn px-4 text-light hover-text-dark ">מאמרים</button>
+            <button class="btn custom-btn px-4 text-light hover-text-dark ">לאחרונה</button>
+            <button class="btn custom-btn px-4 text-light hover-text-dark ">קטגוריות</button>
+            <button class="btn custom-btn px-4 text-light hover-text-dark ">הוספה</button>
+            <!-- <button class="btn custom-btn px-4 text-light hover-text-dark showCountryL"></button> -->
+        </div>
+    
+       
+        <div class="searchBox d-none d-lg-flex align-items-center border rounded-3 px-2 py-1" style="width: 160px; height: 35px; background: rgba(112, 128, 144, 0.349); margin-top: 0;">
+            <input type="text" id="searchInput1" class="form-control border-0 fw-bold text-white text-center" style="background: none;">
+            <span class="fas fa-search ms-2 text-white"></span>
+        </div>
+    
+        
+        <span id="icon_burger" class="fa fa-bars fs-3 d-md-none text-white"></span>
     </header>
+    
+    
+    
+    
+    
 
     <div id="app">
 

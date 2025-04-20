@@ -3,7 +3,7 @@ const appdiv = document.getElementById('app');
 export const updateUI = (_data) => {
 
     if (!_data || !_data.articles || !Array.isArray(_data.articles)) {
-        console.error("לא נמצאו מאמרים או שהנתונים לא בפורמט נכון");
+        console.error("Invalid data format:", _data);
         return;
     }
 
@@ -13,14 +13,18 @@ export const updateUI = (_data) => {
 
     articles.forEach((article) => {
         const articleDiv = document.createElement('div');
-        articleDiv.className = 'article';
-
-      
+        articleDiv.className = 'col-lg-4 col-md-6 col-sm-12 mb-4';
+        
         articleDiv.innerHTML = `
-            <h2 class="article-title">${article.title}</h2>
-            <p class="article-description">${article.description}</p>
-            <p class="article-content">${article.content}</p>
-            <img class="article-image" src="${article.image}" alt="${article.title}">
+            <div class="card shadow-sm">
+                <img src="${article.image}" class="card-img-top" alt="${article.title}">
+                <div class="card-body">
+                    <h5 class="card-title">${article.title}</h5>
+                    <p class="card-text">${article.description}</p>
+                    <p class="card-text"><strong>Content:</strong> ${article.content}</p>
+                    <a href="#" class="btn btn-primary">Read more</a>
+                </div>
+            </div>
         `;
 
         appdiv.appendChild(articleDiv);
