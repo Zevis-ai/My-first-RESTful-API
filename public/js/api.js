@@ -1,3 +1,5 @@
+import { updateUI } from "./update-ui.js";
+
 export const api = async () => {
     let url = "http://127.0.0.1:3000/articles";
     try {
@@ -14,6 +16,7 @@ export const api = async () => {
 
         let data = await response.json();
         console.log("Articles:", data);
+        updateUI(data);
     } catch (err) {
         console.error("Error fetching articles:", err);
     }
