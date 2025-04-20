@@ -1,4 +1,4 @@
-import { apiLogin } from "./api.js";
+import { apiLogin, apiSignup } from "./api.js";
 const main = document.querySelector("main");
 
 
@@ -63,6 +63,7 @@ const loginDiv = () =>{
             })
         });
     }
+
 }
 
 const signupDiv = () =>{
@@ -71,6 +72,10 @@ const signupDiv = () =>{
                 <div class="signup-form shadow-lg p-4 rounded-3 bg-light w-100" style="max-width: 500px;">
                     <h1 class="text-center mb-4 text-primary">Sign Up</h1>
                     <form id="signupForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">name</label>
+                            <input type="" class="form-control" id="name" required placeholder="Enter your name">
+                        </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" required placeholder="Enter your email">
@@ -89,4 +94,18 @@ const signupDiv = () =>{
                 </div>
             </div>
         `;
+
+    const signupForm = document.getElementById("signupForm");
+    if (signupForm) {
+        signupForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            apiSignup(name, email, password)
+            .then((response) => {
+                console.log("Signup successful:", response);
+            })
+        });
+    }
 }

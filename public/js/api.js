@@ -22,7 +22,6 @@ export const api = async () => {
     }
 };
 
-
 export const apiLogin = async (email, password) => {
     let url = "http://127.0.0.1:3000/users/login"
     try {
@@ -39,11 +38,38 @@ export const apiLogin = async (email, password) => {
             throw new Error(`HTTP error! Status: ${response.status}`);
         } else {
             let data = await response.json();
+            console.log("token", data.token);
+            
             loginAlertDiv()
             console.log("Login response:", data);
             api();
         }
     } catch (err) {
         console.error("Error logging in:", err);
+    }
+}
+
+export const apiSignup = async (name, email, password) => {
+    let url = "http://127.0.0.1:3000/users/signup"
+    try {
+        let response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({name, email, password })
+        });
+
+        if (!response.ok) {
+            loginErrorAlertDiv()
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+            let data = await response.json();
+            loginAlertDiv()
+            console.log("Login response:", data);
+            api();
+        }
+    } catch (err) {
+        console.error("Error signing up:", err);
     }
 }
