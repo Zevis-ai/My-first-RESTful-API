@@ -23,3 +23,24 @@ export const api = async () => {
 };
 
 
+export const apiLogin = async (email, password) => {
+    let url = "http://127.0.0.1:3000/users/login"
+    try {
+        let response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let data = await response.json();
+        console.log("Login response:", data);
+    } catch (err) {
+        console.error("Error logging in:", err);
+    }
+}

@@ -1,13 +1,9 @@
-import { api } from './api.js'
-const appdiv = document.getElementById('app')
+// import { api } from './api.js'
+import { login } from './login.js'
 
+const init = () => {
+  login()
+  // api()
+}
 
-appdiv.innerHTML = `
-  <h1>Hello </h1>
-  `
-
-  const init = () => {
-    api()
-  }
-
-  init()
+init()
