@@ -1,4 +1,5 @@
 const appdiv = document.getElementById('app');
+const main = document.querySelector("main");
 
 export const updateUI = (_data) => {
 
@@ -30,3 +31,22 @@ export const updateUI = (_data) => {
         appdiv.appendChild(articleDiv);
     });
 };
+
+
+export const loginAlertDiv = () => {
+    
+
+const alertDiv = document.createElement("div");
+alertDiv.className = "alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow";
+alertDiv.setAttribute("role", "alert");
+alertDiv.style.zIndex = "1050"
+alertDiv.innerHTML = "✅ Login successful! Welcome, Zevi 🧠";
+main.innerHTML = ``
+main.appendChild(alertDiv);
+
+
+setTimeout(() => {
+    alertDiv.remove();
+}, 3000);
+
+}
