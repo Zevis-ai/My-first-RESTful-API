@@ -1,4 +1,4 @@
-import { updateUI, loginAlertDiv } from "./update-ui.js";
+import { updateUI, loginAlertDiv, loginErrorAlertDiv } from "./update-ui.js";
 
 export const api = async () => {
     let url = "http://127.0.0.1:3000/articles";
@@ -35,15 +35,14 @@ export const apiLogin = async (email, password) => {
         });
 
         if (!response.ok) {
+            loginErrorAlertDiv()
             throw new Error(`HTTP error! Status: ${response.status}`);
+        } else {
+            let data = await response.json();
+            loginAlertDiv()
+            console.log("Login response:", data);
+            api();
         }
-
-        let data = await response.json();
-        loginAlertDiv()
-        console.log("Login response:", data);
-        api();
-
-
     } catch (err) {
         console.error("Error logging in:", err);
     }

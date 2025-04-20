@@ -35,18 +35,29 @@ export const updateUI = (_data) => {
 
 export const loginAlertDiv = () => {
     
+    const alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow";
+    alertDiv.setAttribute("role", "alert");
+    alertDiv.style.zIndex = "1050"
+    alertDiv.innerHTML = "✅ Login successful! Welcome";
+    main.innerHTML = ``
+    main.appendChild(alertDiv);
 
-const alertDiv = document.createElement("div");
-alertDiv.className = "alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow";
-alertDiv.setAttribute("role", "alert");
-alertDiv.style.zIndex = "1050"
-alertDiv.innerHTML = "✅ Login successful! Welcome, Zevi 🧠";
-main.innerHTML = ``
-main.appendChild(alertDiv);
-
-
-setTimeout(() => {
-    alertDiv.remove();
-}, 3000);
-
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
 }
+
+export const loginErrorAlertDiv = (message = "❌ Login failed! Please check your credentials.") => {
+    const alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-danger position-fixed top-0 start-50 translate-middle-x mt-3 shadow";
+    alertDiv.setAttribute("role", "alert");
+    alertDiv.style.zIndex = "1050";
+    alertDiv.innerHTML = message;
+    main.appendChild(alertDiv);
+
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+};
+

@@ -56,7 +56,7 @@ const loginDiv = () =>{
             const password = document.getElementById("password").value;
 
             
-            console.log("Logging in with:", { email, password });
+            // console.log("Logging in with:", { email, password });
             apiLogin(email, password)
             .then((response) => {
                 console.log("Login successful:", response);
