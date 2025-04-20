@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export const signup = (req, res) => {
-    const { email, password } = req.body;
+    const {name, email, password } = req.body;
 
     User.find({ email }).then(users => {
         if (users.length >= 1) {
@@ -21,6 +21,7 @@ export const signup = (req, res) => {
             }
             const user = new User({
                 _id: new mongoose.Types.ObjectId(),
+                name,
                 email,
                 password: hash
             });
@@ -41,7 +42,7 @@ export const signup = (req, res) => {
 };
 
 export const login = (req, res) => {
-    const { email, password } = req.body;
+    const {name, email, password } = req.body;
 
     User.find({ email }).then(users => {
         if (users.length < 1) {
