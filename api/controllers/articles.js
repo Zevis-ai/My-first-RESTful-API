@@ -13,11 +13,14 @@ export const getAllArticles = (req, res) => {
 export const createArticle = (req, res) => {
     const { path: image } = req.file;
     const { title, description, content, categoryId } = req.body;
-
+    
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+        return res.status(400).json({ message: 'Invalid categoryId format' });
+    }
+    
     Category.findById(categoryId).then(category => {
         if (!category) {
-            res.status(404).json({ message: 'Category not found' });
-            return null;
+            return res.status(404).json({ message: 'Category not found' });
         }
 
         const article = new Article({
@@ -31,11 +34,14 @@ export const createArticle = (req, res) => {
 
         return article.save();
     }).then(result => {
-        if (!result) return;
+        if (!result) {
+            return res.status(500).json({ message: 'Failed to create article' });
+        }
 
-        res.status(200).json({ message: 'created article' });
+        res.status(201).json({ message: 'Article created successfully', articleId: result._id });
     }).catch(err => {
-        res.status(500).json({ err });
+        console.error("Error creating article:", err);
+        res.status(500).json({ message: 'Internal server error', error: err.message });
     });
 };
 
