@@ -1,4 +1,4 @@
-import { apiAddArticle} from "./api.js";
+import { apiAddArticle, apiGetAllCategory} from "./api.js";
 
 const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
@@ -109,4 +109,33 @@ form.addEventListener('submit', async (e) => {
     const formData = new FormData(form);
         apiAddArticle(form, formData, message)
     });
+};
+
+export const allCategory = async () => {
+    const data = await apiGetAllCategory();
+    
+    const categories = data?.categories || [];
+
+
+    main.innerHTML = `
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">🌟 כל הקטגוריות 🌟</h2>
+            <div class="row justify-content-center" id="categoryRow">
+                ${categories.map(cat => `
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-lg border-0 rounded-4">
+                            <div class="card-body text-center">
+                                <h5 class="card-title text-primary fw-bold">${cat.title}</h5>
+                                <p class="card-text">${cat.description}</p>
+                                <span class="badge bg-secondary">ID: ${cat._id.slice(-4)}</span>
+                            </div>
+                            <div class="card-footer bg-light text-center">
+                                <button class="btn btn-outline-primary w-100">📁 צפה בקטגוריה</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
 };

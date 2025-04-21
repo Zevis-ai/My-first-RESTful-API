@@ -97,3 +97,30 @@ export const apiAddArticle = async (form ,formData, message) => {
         message.innerHTML = `<div class="alert alert-danger">⚠ שגיאת רשת</div>`;
     }
 }
+
+export const apiGetAllCategory = async () => {
+    const url = "http://127.0.0.1:3000/categories";
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Categories:", data);
+        return data;
+    } catch (err) {
+        console.error("Error fetching categories:", err);
+        return null;
+    }
+};
+
