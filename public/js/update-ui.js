@@ -67,48 +67,62 @@ export const loginErrorAlertDiv = (message = "❌ Login failed! Please check you
     }, 3000);
 };
 
-export const updateUIAdd = () => {
-    main.innerHTML = ``
-appdiv.innerHTML = `
-        <div class="container mt-5 d-flex justify-content-center">
-        <div class="card p-4 shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%; background: linear-gradient(135deg, #f9f9f9, #e3f2fd);">
-        <h2 class="mb-4 text-center fw-bold text-primary">הוספת מאמר חדש</h2>
-        <form id="articleForm" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label fw-semibold">כותרת</label>
-                <input type="text" class="form-control rounded-pill shadow-sm" id="title" name="title" required />
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label fw-semibold">תיאור</label>
-                <input type="text" class="form-control rounded-pill shadow-sm" id="description" name="description" required />
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label fw-semibold">תוכן</label>
-                <textarea class="form-control rounded-3 shadow-sm" id="content" name="content" rows="4" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="categoryId" class="form-label fw-semibold">מזהה קטגוריה</label>
-                <input type="text" class="form-control rounded-pill shadow-sm" id="categoryId" name="categoryId" required />
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label fw-semibold">תמונה</label>
-                <input type="file" class="form-control rounded-pill shadow-sm" id="image" name="image" accept="image/*" required />
-            </div>
-            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">📤 שלח מאמר</button>
-        </form>
-        <div id="formMessage" class="mt-4 text-center fw-semibold"></div>
-    </div>
-</div>
+export const updateUIAdd = async () => {
+    let data = await apiGetAllCategory();
+    main.innerHTML = ``;
 
-`
-const form = document.getElementById('articleForm');
-const message = document.getElementById('formMessage');
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-        apiAddArticle(form, formData, message)
+    const categories = data?.categories || [];
+    
+    const categoryOptions = categories.map(category => 
+        `<option value="${category._id}">${category.title}</option>`
+    ).join('');
+
+    appdiv.innerHTML = `
+        <div class="container mt-5 d-flex justify-content-center">
+            <div class="card p-4 shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%; background: linear-gradient(135deg, #f9f9f9, #e3f2fd);">
+                <h2 class="mb-4 text-center fw-bold text-primary">הוספת מאמר חדש</h2>
+                <form id="articleForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-semibold">כותרת</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="title" name="title" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-semibold">תיאור</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="description" name="description" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label fw-semibold">תוכן</label>
+                        <textarea class="form-control rounded-3 shadow-sm" id="content" name="content" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="categoryId" class="form-label fw-semibold">בחר קטגוריה</label>
+                        <select class="form-select rounded-pill shadow-sm" id="categoryId" name="categoryId" required>
+                            <option disabled selected value="">בחר קטגוריה</option>
+                            ${categoryOptions}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label fw-semibold">תמונה</label>
+                        <input type="file" class="form-control rounded-pill shadow-sm" id="image" name="image" accept="image/*" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">📤 שלח מאמר</button>
+                </form>
+                <div id="formMessage" class="mt-4 text-center fw-semibold"></div>
+            </div>
+        </div>
+    `;
+
+    const form = document.getElementById('articleForm');
+    const message = document.getElementById('formMessage');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        
+        
+        apiAddArticle(form, formData, message);
     });
 };
+
 
 export const allCategory = async () => {
     const data = await apiGetAllCategory();
