@@ -4,6 +4,7 @@ const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
 
 export const updateUI = (_data) => {
+    main.innerHTML = ``
     appdiv.innerHTML = ``
     if (!_data || !_data.articles || !Array.isArray(_data.articles)) {
         console.error("Invalid data format:", _data);

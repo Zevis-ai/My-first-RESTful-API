@@ -15,13 +15,9 @@ export const listener = () => {
         const value = clickedButton.value;
 
         if(value === `articles`){
-            loader()
             appdiv.innerHTML = ``;
-
-            setTimeout(() => {
-                main.innerHTML = ``;
-                api() 
-            }, 1500);
+            main.innerHTML = ``;
+            api() 
         }
         if(value === "connection"){
             loginDiv()
@@ -30,7 +26,6 @@ export const listener = () => {
             main.innerHTML = ``;
             appdiv.innerHTML = ``;
             allCategory()
-            
         }
         if (value === 'add') {
             updateUIAdd();

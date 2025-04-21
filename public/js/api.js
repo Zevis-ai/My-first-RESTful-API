@@ -1,7 +1,8 @@
-import { updateUI, loginAlertDiv, loginErrorAlertDiv } from "./update-ui.js";
+import { updateUI, loginAlertDiv, loginErrorAlertDiv, loader } from "./update-ui.js";
 
 export const api = async () => {
     let url = "http://127.0.0.1:3000/articles";
+    loader()
     try {
         let response = await fetch(url, {
             method: "GET",
