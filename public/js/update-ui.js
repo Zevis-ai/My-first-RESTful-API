@@ -10,11 +10,10 @@ export const updateUI = (_data) => {
         return;
     }
 
-
     const articles = _data.articles;
 
     articles.forEach((article) => {
-
+        
     const articleDiv = document.createElement('div');
     articleDiv.className = 'col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch mb-4';
 
@@ -28,9 +27,10 @@ export const updateUI = (_data) => {
                     <p class="card-text small"><strong>תוכן:</strong> ${article.content}</p>
                 </div>
                 <div class="text-center mt-3">
-                    <a href="#" class="btn btn-outline-primary rounded-pill px-4 py-2 hover-grow">לקריאה נוספת</a>
+                    <a href="#" class="btn btn-outline-primary rounded-pill px-4 py-2 hover-grow"> ${article.categoryId.title }:קטגוריה</a>
                 </div>
             </div>
+            
         </div>
     `;
 
@@ -38,7 +38,6 @@ export const updateUI = (_data) => {
 
     });
 };
-
 
 export const loginAlertDiv = () => {
     
@@ -127,7 +126,7 @@ export const allCategory = async () => {
                             <div class="card-body text-center">
                                 <h5 class="card-title text-primary fw-bold">${cat.title}</h5>
                                 <p class="card-text">${cat.description}</p>
-                                <span class="badge bg-secondary">ID: ${cat._id.slice(-4)}</span>
+                                <span class="badge bg-secondary">ID: ${cat._id}</span>
                             </div>
                             <div class="card-footer bg-light text-center">
                                 <button class="btn btn-outline-primary w-100">📁 צפה בקטגוריה</button>
