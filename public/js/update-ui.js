@@ -4,7 +4,7 @@ const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
 
 export const updateUI = (_data) => {
-
+    appdiv.innerHTML = ``
     if (!_data || !_data.articles || !Array.isArray(_data.articles)) {
         console.error("Invalid data format:", _data);
         return;
@@ -13,24 +13,29 @@ export const updateUI = (_data) => {
 
     const articles = _data.articles;
 
-
     articles.forEach((article) => {
-        const articleDiv = document.createElement('div');
-        articleDiv.className = 'col-lg-4 col-md-6 col-sm-12 mb-4';
-        
-        articleDiv.innerHTML = `
-            <div class="card shadow-sm">
-                <img src="${article.image}" class="card-img-top" alt="${article.title}">
-                <div class="card-body">
-                    <h5 class="card-title">${article.title}</h5>
-                    <p class="card-text">${article.description}</p>
-                    <p class="card-text"><strong>Content:</strong> ${article.content}</p>
-                    <a href="#" class="btn btn-primary">Read more</a>
+
+    const articleDiv = document.createElement('div');
+    articleDiv.className = 'col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch mb-4';
+
+    articleDiv.innerHTML = `
+        <div class="card border-0 shadow-lg rounded-4 w-100 h-100" style="overflow: hidden;">
+            <img src="${article.image}" class="card-img-top" alt="${article.title}" style="height: 300px; object-fit: cover;">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div>
+                    <h5 class="card-title text-primary fw-bold">${article.title}</h5>
+                    <p class="card-text text-muted">${article.description}</p>
+                    <p class="card-text small"><strong>תוכן:</strong> ${article.content}</p>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="#" class="btn btn-outline-primary rounded-pill px-4 py-2 hover-grow">לקריאה נוספת</a>
                 </div>
             </div>
-        `;
+        </div>
+    `;
 
-        appdiv.appendChild(articleDiv);
+    appdiv.appendChild(articleDiv);
+
     });
 };
 
@@ -64,34 +69,38 @@ export const loginErrorAlertDiv = (message = "❌ Login failed! Please check you
 };
 
 export const updateUIAdd = () => {
-main.innerHTML = `
-        <div class="container mt-5">
-            <h2 class="mb-4 text-center">הוספת מאמר חדש</h2>
-            <form id="articleForm" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="title" class="form-label">כותרת</label>
-                    <input type="text" class="form-control" id="title" name="title" required />
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">תיאור</label>
-                    <input type="text" class="form-control" id="description" name="description" required />
-                </div>
-                <div class="mb-3">
-                    <label for="content" class="form-label">תוכן</label>
-                    <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="categoryId" class="form-label">מזהה קטגוריה</label>
-                    <input type="text" class="form-control" id="categoryId" name="categoryId" required />
-                </div>
-                <div class="mb-3">
-                    <label for="image" class="form-label">תמונה</label>
-                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required />
-                </div>
-                <button type="submit" class="btn btn-primary w-100">שלח</button>
-            </form>
-            <div id="formMessage" class="mt-3 text-center"></div>
-        </div>
+    main.innerHTML = ``
+appdiv.innerHTML = `
+        <div class="container mt-5 d-flex justify-content-center">
+        <div class="card p-4 shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%; background: linear-gradient(135deg, #f9f9f9, #e3f2fd);">
+        <h2 class="mb-4 text-center fw-bold text-primary">הוספת מאמר חדש</h2>
+        <form id="articleForm" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label fw-semibold">כותרת</label>
+                <input type="text" class="form-control rounded-pill shadow-sm" id="title" name="title" required />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label fw-semibold">תיאור</label>
+                <input type="text" class="form-control rounded-pill shadow-sm" id="description" name="description" required />
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label fw-semibold">תוכן</label>
+                <textarea class="form-control rounded-3 shadow-sm" id="content" name="content" rows="4" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="categoryId" class="form-label fw-semibold">מזהה קטגוריה</label>
+                <input type="text" class="form-control rounded-pill shadow-sm" id="categoryId" name="categoryId" required />
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label fw-semibold">תמונה</label>
+                <input type="file" class="form-control rounded-pill shadow-sm" id="image" name="image" accept="image/*" required />
+            </div>
+            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">📤 שלח מאמר</button>
+        </form>
+        <div id="formMessage" class="mt-4 text-center fw-semibold"></div>
+    </div>
+</div>
+
 `
 const form = document.getElementById('articleForm');
 const message = document.getElementById('formMessage');

@@ -1,4 +1,8 @@
+import { api } from './api.js';
 import { updateUIAdd } from './update-ui.js';
+import { loginDiv } from './login.js';
+const main = document.querySelector("main");
+const appdiv = document.getElementById('app');
 
 export const listener = () => {
     document.addEventListener('DOMContentLoaded', () => {
@@ -9,6 +13,14 @@ export const listener = () => {
         if (clickedButton) {
         const value = clickedButton.value;
 
+        if(value === `articles`){
+            main.innerHTML = ``;
+            appdiv.innerHTML = ``;
+            api()
+        }
+        if(value === "connection"){
+            loginDiv()
+        }
         if (value === 'add') {
             updateUIAdd();
         } else {

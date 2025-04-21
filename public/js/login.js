@@ -1,5 +1,6 @@
 import { apiLogin, apiSignup } from "./api.js";
 const main = document.querySelector("main");
+const appdiv = document.getElementById('app');
 
 
 export const login = async () => {
@@ -23,7 +24,8 @@ const addEventListeners = () => {
     }
 };
 
-const loginDiv = () =>{
+export const loginDiv = () =>{
+    appdiv.innerHTML = ``
     main.innerHTML = `
         <div class="container d-flex justify-content-center align-items-center min-vh-100">
             <div class="login-form shadow-lg p-4 rounded-3 bg-light w-100" style="max-width: 500px;">
