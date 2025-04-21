@@ -152,3 +152,11 @@ export const allCategory = async () => {
         </div>
     `;
 };
+
+export const loader =()=>{
+    main.innerHTML = `
+        <div class="d-flex justify-content-center align-items-center min-vh-100">
+            <div class="loader"></div>
+        </div>
+    `;
+}

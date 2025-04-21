@@ -1,6 +1,7 @@
 import { api } from './api.js';
-import { updateUIAdd ,allCategory} from './update-ui.js';
+import { updateUIAdd ,allCategory, loader} from './update-ui.js';
 import { loginDiv } from './login.js';
+
 const main = document.querySelector("main");
 const appdiv = document.getElementById('app');
 
@@ -14,9 +15,13 @@ export const listener = () => {
         const value = clickedButton.value;
 
         if(value === `articles`){
-            main.innerHTML = ``;
+            loader()
             appdiv.innerHTML = ``;
-            api()
+
+            setTimeout(() => {
+                main.innerHTML = ``;
+                api() 
+            }, 1500);
         }
         if(value === "connection"){
             loginDiv()
