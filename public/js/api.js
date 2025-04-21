@@ -39,6 +39,7 @@ export const apiLogin = async (email, password) => {
         } else {
             let data = await response.json();
             console.log("token", data.token);
+            localStorage.setItem("token", data.token);
             
             loginAlertDiv()
             console.log("Login response:", data);
@@ -71,5 +72,28 @@ export const apiSignup = async (name, email, password) => {
         }
     } catch (err) {
         console.error("Error signing up:", err);
+    }
+}
+
+export const apiAddArticle = async (form ,formData, message) => {
+    try {
+        const token = localStorage.getItem('token');
+        const res = await fetch('/articles', {
+            method: 'POST',
+            headers: {
+            Authorization: `Bearer ${token}`,
+        },
+            body: formData,
+        });
+        const data = await res.json();
+        if (res.ok) {
+            message.innerHTML = `<div class="alert alert-success">✔ ${data.message}</div>`;
+            form.reset();
+        } else {
+            message.innerHTML = `<div class="alert alert-danger">✖ ${data.message || 'שגיאה בשליחה'}</div>`;
+        }
+    } catch (err) {
+        console.error(err);
+        message.innerHTML = `<div class="alert alert-danger">⚠ שגיאת רשת</div>`;
     }
 }

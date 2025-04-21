@@ -1,3 +1,5 @@
+import { apiAddArticle} from "./api.js";
+
 const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
 
@@ -61,3 +63,41 @@ export const loginErrorAlertDiv = (message = "❌ Login failed! Please check you
     }, 3000);
 };
 
+export const updateUIAdd = () => {
+main.innerHTML = `
+        <div class="container mt-5">
+            <h2 class="mb-4 text-center">הוספת מאמר חדש</h2>
+            <form id="articleForm" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="title" class="form-label">כותרת</label>
+                    <input type="text" class="form-control" id="title" name="title" required />
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">תיאור</label>
+                    <input type="text" class="form-control" id="description" name="description" required />
+                </div>
+                <div class="mb-3">
+                    <label for="content" class="form-label">תוכן</label>
+                    <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="categoryId" class="form-label">מזהה קטגוריה</label>
+                    <input type="text" class="form-control" id="categoryId" name="categoryId" required />
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">תמונה</label>
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required />
+                </div>
+                <button type="submit" class="btn btn-primary w-100">שלח</button>
+            </form>
+            <div id="formMessage" class="mt-3 text-center"></div>
+        </div>
+`
+const form = document.getElementById('articleForm');
+const message = document.getElementById('formMessage');
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+        apiAddArticle(form, formData, message)
+    });
+};
