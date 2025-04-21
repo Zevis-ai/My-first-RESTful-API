@@ -1,10 +1,10 @@
-import { apiAddArticle, apiGetAllCategory} from "./api.js";
+import { apiAddArticle, apiGetAllCategory, apiAddCategory} from "./api.js";
 
 const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
 
 export const updateUI = (_data) => {
-    main.innerHTML = ``
+    
     appdiv.innerHTML = ``
     if (!_data || !_data.articles || !Array.isArray(_data.articles)) {
         console.error("Invalid data format:", _data);
@@ -124,7 +124,6 @@ export const updateUIAdd = async () => {
     });
 };
 
-
 export const allCategory = async () => {
     const data = await apiGetAllCategory();
     
@@ -152,6 +151,7 @@ export const allCategory = async () => {
             </div>
         </div>
     `;
+    updateUIAddCategory()
 };
 
 export const loader =()=>{
@@ -161,3 +161,38 @@ export const loader =()=>{
         </div>
     `;
 }
+
+export const updateUIAddCategory = () => {
+    const appdiv = document.getElementById("app");
+    appdiv.innerHTML = `
+        <div class="container mt-5 d-flex justify-content-center">
+            <div class="card p-4 shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%; background: linear-gradient(135deg, #f9f9f9, #e3f2fd);">
+                <h2 class="mb-4 text-center fw-bold text-primary">הוספת קטגוריה חדשה</h2>
+                <form id="categoryForm">
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-semibold">כותרת</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="title" name="title" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-semibold">תיאור</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="description" name="description" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">📤 שלח קטגוריה</button>
+                </form>
+                <div id="formMessage" class="mt-4 text-center fw-semibold"></div>
+            </div>
+        </div>
+    `;
+
+    const form = document.getElementById('categoryForm');
+    const message = document.getElementById('formMessage');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        message.innerHTML = `<div class="text-info">⌛ שולח...</div>`;
+
+        await apiAddCategory(form, formData, message);
+    });
+};

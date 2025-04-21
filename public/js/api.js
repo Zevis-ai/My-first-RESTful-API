@@ -102,7 +102,7 @@ export const apiAddArticle = async (form ,formData, message) => {
 export const apiGetAllCategory = async () => {
     const url = "http://127.0.0.1:3000/categories";
     const token = localStorage.getItem("token");
-
+    loader()
     try {
         const response = await fetch(url, {
             method: "GET",
@@ -125,3 +125,35 @@ export const apiGetAllCategory = async () => {
     }
 };
 
+export const apiAddCategory = async (form, formData, message) => {
+    let url = "http://127.0.0.1:3000/categories";
+    let token = localStorage.getItem('token');
+
+    try {
+        let response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+                title: formData.get("title"),
+                description: formData.get("description")
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        let data = await response.json();
+        console.log("Category added:", data);
+
+        message.innerHTML = `<div class="alert alert-success mt-3">✅ הקטגוריה נוספה בהצלחה!</div>`;
+        form.reset();
+
+    } catch (err) {
+        console.error("Error adding category:", err);
+        message.innerHTML = `<div class="alert alert-danger mt-3">❌ שגיאה בהוספת הקטגוריה. נסה שוב מאוחר יותר.</div>`;
+    }
+};
