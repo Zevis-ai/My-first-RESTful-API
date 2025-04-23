@@ -1,4 +1,4 @@
-import { apiAddArticle, apiGetAllCategory, apiAddCategory} from "./api.js";
+import { apiAddArticle, apiGetAllCategory, apiAddCategory , apiUpdateArticle} from "./api.js";
 
 const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
@@ -202,12 +202,77 @@ export const updateUIAddCategory = () => {
 export const updateUIHome = () => {
     appdiv.innerHTML = ``;
     main.innerHTML = `
-        <div class="container mt-5 d-flex justify-content-center">
-            <div class="card p-4 shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%; background: linear-gradient(135deg, #f9f9f9, #e3f2fd);">
-                <h2 class="mb-4 text-center fw-bold text-primary">ברוך הבא למערכת ניהול המאמרים</h2>
-                <p class="text-center">בחר באפשרות הרצויה מהתפריט למעלה.</p>
-                <button class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">עריכת מאמרים</button>
+        <div class="container mt-5 d-flex justify-content-center align-items-center">
+            <div class="card p-5 shadow-lg border-0 rounded-4 w-100" style="max-width: 700px; background: linear-gradient(135deg, #ffffff, #e3f2fd);">
+                <h2 class="mb-4 text-center fw-bold text-primary">✨ ברוך הבא למערכת ניהול המאמרים ✨</h2>
+                <p class="text-center fs-5 mb-4">בחר פעולה שתרצה לבצע:</p>
+                <div class="d-grid gap-3">
+                    <button class="btn btn-success rounded-pill py-2 fs-5 shadow-sm" id="editArticlesBtn">
+                        ✏️ עריכת מאמרים
+                    </button>
+                    <button class="btn btn-danger rounded-pill py-2 fs-5 shadow-sm" id="deleteArticlesBtn">
+                        🗑️ מחיקת מאמרים
+                    </button>
+                    <button class="btn btn-warning rounded-pill py-2 fs-5 shadow-sm" id="deleteCategoriesBtn">
+                        🧹 מחיקת קטגוריות
+                    </button>
+                </div>
             </div>
         </div>
     `;
+
+    document.getElementById("editArticlesBtn").addEventListener("click", () => {
+        console.log("עריכת מאמרים");
+    });
+
+    document.getElementById("deleteArticlesBtn").addEventListener("click", () => {
+        console.log("מחיקת מאמרים");
+    });
+
+    document.getElementById("deleteCategoriesBtn").addEventListener("click", () => {
+        console.log("מחיקת קטגוריות");
+    });
+};
+
+export const updateUIEditArticle = () => {
+    appdiv.innerHTML = ``;
+    main.innerHTML = `
+        <div class="container mt-5 d-flex justify-content-center align-items-center">
+            <div class="card p-5 shadow-lg border-0 rounded-4 w-100" style="max-width: 700px; background: linear-gradient(135deg, #ffffff, #e3f2fd);">
+                <h2 class="mb-4 text-center fw-bold text-primary">📝 עריכת מאמר</h2>
+                <form id="editArticleForm">
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-semibold">כותרת</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="title" name="title" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="title" class="form-label fw-semibold">id</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="art_id" name="title" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label fw-semibold">תיאור</label>
+                        <input type="text" class="form-control rounded-pill shadow-sm" id="description" name="description" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="form-label fw-semibold">תוכן</label>
+                        <textarea class="form-control rounded-3 shadow-sm" id="content" name="content" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">💾 שמור שינויים</button>
+                </form>
+                <div id="formMessage" class="mt-4 text-center fw-semibold"></div>
+            </div>
+        </div>
+    `;
+    const form = document.getElementById('editArticleForm');
+    const message = document.getElementById('formMessage');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        
+        message.innerHTML = `<div class="text-info">⌛ שולח...</div>`;
+        
+        await apiUpdateArticle(form, formData, message);
+    });
 }

@@ -157,3 +157,44 @@ export const apiAddCategory = async (form, formData, message) => {
         message.innerHTML = `<div class="alert alert-danger mt-3">❌ שגיאה בהוספת הקטגוריה. נסה שוב מאוחר יותר.</div>`;
     }
 };
+
+export const apiUpdateArticle = async (form, formData, message) => {
+    const token = localStorage.getItem('token');
+    const articleId = formData.get("id");
+
+    if (!articleId) {
+        message.innerHTML = `<div class="alert alert-warning">🆔 מזהה המאמר חסר!</div>`;
+        return;
+    }
+
+    const url = `http://127.0.0.1:3000/articles/${articleId}`;
+
+    try {
+        const formDataToSend = new FormData();
+        formDataToSend.append("title", formData.get("title"));
+        formDataToSend.append("description", formData.get("description"));
+        formDataToSend.append("category", formData.get("category"));
+        if (formData.get("image")) {
+            formDataToSend.append("image", formData.get("image"));
+        }
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            body: formDataToSend
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            message.innerHTML = `<div class="alert alert-success">✔ ${data.message}</div>`;
+            form.reset();
+        } else {
+            message.innerHTML = `<div class="alert alert-danger">✖ ${data.message || 'שגיאה בעדכון'}</div>`;
+        }
+    } catch (err) {
+        console.error(err);
+        message.innerHTML = `<div class="alert alert-danger">⚠ שגיאת רשת</div>`;
+    }
+}
