@@ -1,4 +1,4 @@
-import { apiAddArticle, apiGetAllCategory, apiAddCategory , apiUpdateArticle} from "./api.js";
+import { apiAddArticle, apiGetAllCategory, apiAddCategory , apiUpdateArticle, api } from "./api.js";
 
 const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
@@ -222,7 +222,7 @@ export const updateUIHome = () => {
     `;
 
     document.getElementById("editArticlesBtn").addEventListener("click", () => {
-        console.log("עריכת מאמרים");
+        updateUIEditArticle();
     });
 
     document.getElementById("deleteArticlesBtn").addEventListener("click", () => {
@@ -234,7 +234,14 @@ export const updateUIHome = () => {
     });
 };
 
-export const updateUIEditArticle = () => {
+export const updateUIEditArticle = async () => {
+    let data = await api(); // ודא שיש לך פונקציה כזו שמחזירה את כל המאמרים
+    const articles = data?.articles || [];
+
+    const articleOptions = articles.map(article => 
+        `<option value="${article._id}">${article.title}</option>`
+    ).join('');
+
     appdiv.innerHTML = ``;
     main.innerHTML = `
         <div class="container mt-5 d-flex justify-content-center align-items-center">
@@ -242,15 +249,16 @@ export const updateUIEditArticle = () => {
                 <h2 class="mb-4 text-center fw-bold text-primary">📝 עריכת מאמר</h2>
                 <form id="editArticleForm">
                     <div class="mb-3">
+                        <label for="articleId" class="form-label fw-semibold">בחר מאמר</label>
+                        <select class="form-select rounded-pill shadow-sm" id="articleId" name="id" required>
+                            <option value="">בחר מאמר...</option>
+                            ${articleOptions}
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="title" class="form-label fw-semibold">כותרת</label>
                         <input type="text" class="form-control rounded-pill shadow-sm" id="title" name="title" required />
                     </div>
-
-                    <div class="mb-3">
-                        <label for="title" class="form-label fw-semibold">id</label>
-                        <input type="text" class="form-control rounded-pill shadow-sm" id="art_id" name="title" required />
-                    </div>
-                    
                     <div class="mb-3">
                         <label for="description" class="form-label fw-semibold">תיאור</label>
                         <input type="text" class="form-control rounded-pill shadow-sm" id="description" name="description" required />
@@ -265,14 +273,16 @@ export const updateUIEditArticle = () => {
             </div>
         </div>
     `;
+
     const form = document.getElementById('editArticleForm');
     const message = document.getElementById('formMessage');
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(form);
-        
+
         message.innerHTML = `<div class="text-info">⌛ שולח...</div>`;
-        
+
         await apiUpdateArticle(form, formData, message);
     });
 }

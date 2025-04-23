@@ -18,6 +18,7 @@ export const api = async () => {
         let data = await response.json();
         console.log("Articles:", data);
         updateUI(data);
+        return data;
     } catch (err) {
         console.error("Error fetching articles:", err);
     }
@@ -198,3 +199,4 @@ export const apiUpdateArticle = async (form, formData, message) => {
         message.innerHTML = `<div class="alert alert-danger">⚠ שגיאת רשת</div>`;
     }
 }
+
