@@ -1,5 +1,5 @@
 import { api } from './api.js';
-import { updateUIAdd ,allCategory, loader} from './update-ui.js';
+import { updateUIAdd ,allCategory, updateUIHome} from './update-ui.js';
 import { loginDiv } from './login.js';
 
 const main = document.querySelector("main");
@@ -15,16 +15,15 @@ export const listener = () => {
         const value = clickedButton.value;
 
         if(value === `articles`){
-            appdiv.innerHTML = ``;
-            main.innerHTML = ``;
             api() 
+        }
+        if (value === "home") {
+            updateUIHome()
         }
         if(value === "connection"){
             loginDiv()
         }
         if (value === 'category'){
-            main.innerHTML = ``;
-            appdiv.innerHTML = ``;
             allCategory()
         }
         if (value === 'add') {

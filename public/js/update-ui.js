@@ -4,7 +4,7 @@ const appdiv = document.getElementById('app');
 const main = document.querySelector("main");
 
 export const updateUI = (_data) => {
-    
+    main.innerHTML = ``;
     appdiv.innerHTML = ``
     if (!_data || !_data.articles || !Array.isArray(_data.articles)) {
         console.error("Invalid data format:", _data);
@@ -129,7 +129,7 @@ export const allCategory = async () => {
     
     const categories = data?.categories || [];
 
-
+    appdiv.innerHTML = ``;
     main.innerHTML = `
         <div class="container mt-5">
             <h2 class="text-center mb-4">🌟 כל הקטגוריות 🌟</h2>
@@ -155,6 +155,7 @@ export const allCategory = async () => {
 };
 
 export const loader =()=>{
+    appdiv.innerHTML = ``;
     main.innerHTML = `
         <div class="d-flex justify-content-center align-items-center min-vh-100">
             <div class="loader"></div>
@@ -163,6 +164,7 @@ export const loader =()=>{
 }
 
 export const updateUIAddCategory = () => {
+    main.innerHTML = ``;
     const appdiv = document.getElementById("app");
     appdiv.innerHTML = `
         <div class="container mt-5 d-flex justify-content-center">
@@ -196,3 +198,16 @@ export const updateUIAddCategory = () => {
         await apiAddCategory(form, formData, message);
     });
 };
+
+export const updateUIHome = () => {
+    appdiv.innerHTML = ``;
+    main.innerHTML = `
+        <div class="container mt-5 d-flex justify-content-center">
+            <div class="card p-4 shadow-lg border-0 rounded-4" style="max-width: 600px; width: 100%; background: linear-gradient(135deg, #f9f9f9, #e3f2fd);">
+                <h2 class="mb-4 text-center fw-bold text-primary">ברוך הבא למערכת ניהול המאמרים</h2>
+                <p class="text-center">בחר באפשרות הרצויה מהתפריט למעלה.</p>
+                <button class="btn btn-primary w-100 rounded-pill py-2 fs-5 shadow-sm hover-effect">עריכת מאמרים</button>
+            </div>
+        </div>
+    `;
+}
