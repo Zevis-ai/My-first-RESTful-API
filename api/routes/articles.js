@@ -2,6 +2,10 @@ import express from 'express';
 import upload from '../middlewares/upload.js';
 import checkAuth from '../middlewares/checkAuth.js';
 
+import multer from 'multer';
+
+const upload2 = multer()
+
 import {
     getAllArticles,
     createArticle,
@@ -16,7 +20,7 @@ router.get('/', getAllArticles);
 router.get('/:articleId', getArticle);
 
 router.post('/', upload.single('image'), checkAuth, createArticle);
-router.patch('/:articleId', checkAuth, updateArticle);
+router.patch('/:id', checkAuth, upload2.none(),updateArticle);
 router.delete('/:articleId', checkAuth, deleteArticle);
 
 export default router;

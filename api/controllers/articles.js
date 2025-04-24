@@ -59,7 +59,7 @@ export const getArticle = (req, res) => {
 
 export const updateArticle = async (req, res) => {
     try {
-        const articleId = req.params.articleId;
+        const articleId = req.params.id;
         const { categoryId } = req.body;
 
         const article = await Article.findById(articleId);
@@ -78,7 +78,8 @@ export const updateArticle = async (req, res) => {
         return res.status(200).json({ message: 'Article updated' });
 
     } catch (err) {
-        return res.status(500).json({ err });
+        console.error("🔥 Error in updateArticle:", err); // תוספת חשובה מאוד
+            return res.status(500).json({ err: err.message || err });
     }
 };
 

@@ -161,7 +161,9 @@ export const apiAddCategory = async (form, formData, message) => {
 
 export const apiUpdateArticle = async (form, formData, message) => {
     const token = localStorage.getItem('token');
+    
     const articleId = formData.get("id");
+    console.log({articleId : articleId});
 
     if (!articleId) {
         message.innerHTML = `<div class="alert alert-warning">🆔 מזהה המאמר חסר!</div>`;
@@ -180,7 +182,7 @@ export const apiUpdateArticle = async (form, formData, message) => {
         }
 
         const response = await fetch(url, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 "Authorization": `Bearer ${token}`
             },
@@ -197,6 +199,10 @@ export const apiUpdateArticle = async (form, formData, message) => {
     } catch (err) {
         console.error(err);
         message.innerHTML = `<div class="alert alert-danger">⚠ שגיאת רשת</div>`;
+        
+            
+    
+        
     }
 }
 
